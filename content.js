@@ -5,19 +5,20 @@
 
   let catState = 'idle';
   let lastInteraction = Date.now();
+  let currentInterval;
 
-  const spriteWidth = 32; // Each sprite seems to be 32x32 pixels
+  const spriteWidth = 32;
   const spriteHeight = 32;
   const states = {
-    idle: { frames: 16, row: 0 }, // Using first 4 rows for idle
-    walk: { frames: 8, row: 4 },  // Using rows 5-6 for walking
-    play: { frames: 8, row: 6 }   // Using last 2 rows for playing
+    idle: { frames: 16, row: 0, speed: 200 },
+    walk: { frames: 8, row: 4, speed: 150 },
+    play: { frames: 8, row: 6, speed: 250 }
   };
 
   cat.style.backgroundImage = `url(${chrome.runtime.getURL('cat-sprite.png')})`;
   cat.style.width = `${spriteWidth}px`;
   cat.style.height = `${spriteHeight}px`;
-  cat.style.transform = 'scale(3)'; // Make the cat 3 times bigger
+  cat.style.transform = 'scale(3)';
 
   function updateSprite(state, frame) {
     const row = Math.floor(frame / 4) + states[state].row;
@@ -28,29 +29,30 @@
   function animate(state) {
     let frame = 0;
     const frameCount = states[state].frames;
-    const interval = setInterval(() => {
+    if (currentInterval) clearInterval(currentInterval);
+    currentInterval = setInterval(() => {
       updateSprite(state, frame);
       frame = (frame + 1) % frameCount;
       if (frame === 0 && state !== 'idle') {
-        clearInterval(interval);
+        clearInterval(currentInterval);
         animate('idle');
       }
-    }, 150); // Slightly slower animation for better visibility
+    }, states[state].speed);
   }
 
   function performAction(action) {
     catState = action;
     animate(action);
     if (action === 'walk') {
-      cat.style.animation = 'walk 4s linear';
+      cat.style.animation = 'walk 6s linear';
+      setTimeout(() => {
+        cat.style.animation = '';
+      }, 6000);
     }
-    setTimeout(() => {
-      cat.style.animation = '';
-    }, action === 'walk' ? 4000 : 0);
   }
 
   cat.addEventListener('mouseenter', () => {
-    if (catState === 'idle') {
+    if (catState !== 'play') {
       performAction('play');
       lastInteraction = Date.now();
     }
