@@ -17,10 +17,7 @@ A delightful Chrome extension that brings a cute, interactive pixel art cat to y
   - [Code Architecture](#code-architecture)
   - [Customization](#customization)
   - [Future Development](#future-development)
-- [Contributing](#contributing)
-- [License](#license)
-- [Support](#support)
-- [About Us](#about-us)
+
 
 ## Features
 
@@ -106,17 +103,6 @@ Developers can easily customize the cat's appearance and behavior by modifying t
 3. Develop a system for "feeding" and "caring" for the cat
 4. Create additional animal companions
 
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, feature requests, or bug reports, please [file an issue](https://github.com/your-username/animated-cat-companion/issues) on our GitHub repository.
 
 
 ---
