@@ -203,7 +203,7 @@
             <h2>FAQ</h2>
             <div class="faq-content">
                 <h3>How do I use the extension?</h3>
-                <p>🌍Step 1: Go to a website<br>😺Step 2: Click on the activate button<br>🐾Step 3: Enjoy your cat companion</p>
+                <p>🌍Step 1: Go to the chrome store<br>😺Step 2: Click on add to chrome<br>🐾Step 3: Enjoy your cat companion</p>
                 
                 <h3>Where can I find the extension?</h3>
                 <p>You can find the extension in the Chrome Store. We hope you like it!</p>
@@ -269,6 +269,41 @@
         setupModal("privacyModal", "privacyLink");
         setupModal("faqModal", "faqLink");
         setupModal("creditsModal", "creditsLink");
+
+        // Check if the URL contains '/privacy'
+    if (window.location.pathname.includes('/privacy')) {
+        // Get the privacy modal and its content
+        const privacyModal = document.getElementById('privacyModal');
+        const privacyContent = document.getElementById('privacyContent');
+
+        // Remove the modal styling
+        privacyModal.style.display = 'block';
+        privacyModal.style.position = 'static';
+        privacyModal.style.backgroundColor = 'transparent';
+        privacyModal.style.height = 'auto';
+
+        // Adjust the content styling
+        privacyContent.style.margin = '0 auto';
+        privacyContent.style.width = '100%';
+        privacyContent.style.maxWidth = '800px';
+
+        // Hide other content
+        document.querySelector('.container').style.display = 'none';
+        document.querySelector('footer').style.display = 'none';
+
+        // Remove the close button
+        const closeButton = privacyContent.querySelector('.close');
+        if (closeButton) {
+            closeButton.style.display = 'none';
+        }
+
+        // Add a title to the page
+        document.title = 'Privacy Policy - Cat Companion Extension';
+    }
+
+
+
+
     </script>
 </body>
 </html>
