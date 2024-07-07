@@ -1,20 +1,12 @@
 const CatCompanion = (function() {
-    const DEBUG = true;
     const SPRITE_WIDTH = 32;
     const SPRITE_HEIGHT = 32;
     const STATES = {
       idle: { frames: 16, row: 0, speed: 200 },
-      walk: { frames: 8, row: 4, speed: 150 },
-      play: { frames: 8, row: 6, speed: 250 }
+      play: { frames: 8, row: 6, speed: 250 },
     };
   
-    let cat, catState, lastInteraction, currentInterval;
-  
-    function log(message) {
-      if (DEBUG) {
-        console.log(`[Cat Companion] ${message}`);
-      }
-    }
+    let cat, catState, currentInterval;
   
     function createCatElement() {
       const element = document.createElement('div');
@@ -28,8 +20,11 @@ const CatCompanion = (function() {
       cat.style.width = `${SPRITE_WIDTH}px`;
       cat.style.height = `${SPRITE_HEIGHT}px`;
       cat.style.transform = 'scale(3)';
+      cat.style.position = 'fixed';
+      cat.style.right = '10px';
+      cat.style.bottom = '10px';
+      cat.style.zIndex = '9999';
       catState = 'idle';
-      lastInteraction = Date.now();
     }
   
     function updateSprite(state, frame) {
@@ -45,71 +40,29 @@ const CatCompanion = (function() {
       currentInterval = setInterval(() => {
         updateSprite(state, frame);
         frame = (frame + 1) % frameCount;
-        if (frame === 0 && state !== 'idle') {
-          clearInterval(currentInterval);
-          animate('idle');
-        }
       }, STATES[state].speed);
     }
   
-    function performAction(action) {
-      log(`Performing action: ${action}`);
-      catState = action;
-      animate(action);
-      if (action === 'walk') {
-        cat.style.animation = 'walk 6s linear';
-        setTimeout(() => {
-          cat.style.animation = '';
-        }, 6000);
-      }
-    }
-  
     function handleMouseEnter() {
-      if (catState !== 'play') {
-        performAction('play');
-        lastInteraction = Date.now();
-      }
+      catState = 'play';
+      animate('play');
     }
   
     function handleMouseLeave() {
-      if (catState === 'play') {
-        performAction('idle');
-      }
-    }
-  
-    function handleClick() {
-      performAction('walk');
-      lastInteraction = Date.now();
-    }
-  
-    function checkIdleAction() {
-      const now = Date.now();
-      if (now - lastInteraction > 10000 && catState === 'idle') {
-        if (Math.random() < 0.3) {
-          performAction('walk');
-        }
-      }
-    }
-  
-    function setupEventListeners() {
-      cat.addEventListener('mouseenter', handleMouseEnter);
-      cat.addEventListener('mouseleave', handleMouseLeave);
-      cat.addEventListener('click', handleClick);
-      setInterval(checkIdleAction, 1000);
-    }
-  
-    function startIdleAnimation() {
+      catState = 'idle';
       animate('idle');
     }
   
+    function init() {
+      cat = createCatElement();
+      initializeCat();
+      animate('idle');
+      cat.addEventListener('mouseenter', handleMouseEnter);
+      cat.addEventListener('mouseleave', handleMouseLeave);
+    }
+  
     return {
-      init: function() {
-        log('Initializing Cat Companion');
-        cat = createCatElement();
-        initializeCat();
-        setupEventListeners();
-        startIdleAnimation();
-      }
+      init: init
     };
   })();
   

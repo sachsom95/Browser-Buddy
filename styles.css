@@ -10,17 +10,4 @@
   image-rendering: pixelated;
   transform: scale(3);
   transform-origin: bottom right;
-  transition: transform 0.3s ease-in-out;
-}
-
-#browser-cat:hover {
-  transform: scale(3.2);
-}
-
-@keyframes walk {
-  0% { transform: translateX(0) scale(3); }
-  25% { transform: translateX(-25px) scale(3); }
-  50% { transform: translateX(-50px) scale(3); }
-  75% { transform: translateX(-25px) scale(3); }
-  100% { transform: translateX(0) scale(3); }
 }
