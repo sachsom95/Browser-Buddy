@@ -132,6 +132,17 @@
         .credits a:hover {
             text-decoration: underline;
         }
+        footer a[href*="buymeacoffee"] {
+        background-color: #FFDD00;
+        color: #000000;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    footer a[href*="buymeacoffee"]:hover {
+        background-color: #FFEE58;
+    }
     </style>
 </head>
 <body>
@@ -152,13 +163,12 @@
         <a id="privacyLink">Privacy</a>
         <a id="faqLink">FAQ</a>
         <a href="https://www.youtube.com/watch?v=9nePN6D7xfk" target="_blank">Watch on YouTube</a>
+        <a id="creditsLink">Credits</a>
+        <a href="https://buymeacoffee.com/sachsom95" target="_blank">Buy Me a Coffee</a>
+
     </footer>
 
-    <div class="credits">
-        <p>Cat sprites by <a href="https://elthen.itch.io/2d-pixel-art-cat-sprites" target="_blank">Elthen</a> | 
-           Inspired by <a href="https://lasercat.app/" target="_blank">LaserCat</a> | 
-           Developed by <a href="https://github.com/sachsom95" target="_blank">sachsom95</a></p>
-    </div>
+
 
     <div id="privacyModal" class="modal">
         <div class="modal-content">
@@ -180,7 +190,13 @@
             <p>If you have any questions about this Privacy Policy, please contact us at: [Your Contact Information]</p>
         </div>
     </div>
-
+    <div id="creditsModal" class="modal">
+        <div class="modal-content">
+            <p>Cat sprites by <a href="https://elthen.itch.io/2d-pixel-art-cat-sprites" target="_blank">Elthen</a> | 
+                Inspired by <a href="https://lasercat.app/" target="_blank">LaserCat</a> | 
+                Developed by <a href="https://github.com/sachsom95" target="_blank">sachsom95</a></p>
+        </div>
+    </div>
     <div id="faqModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -252,6 +268,7 @@
 
         setupModal("privacyModal", "privacyLink");
         setupModal("faqModal", "faqLink");
+        setupModal("creditsModal", "creditsLink");
     </script>
 </body>
 </html>
