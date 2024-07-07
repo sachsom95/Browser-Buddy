@@ -5,22 +5,23 @@ const CatCompanion = (function() {
     idle: { frames: 16, row: 0, speed: 200 },
     play: { frames: 8, row: 6, speed: 250 },
     walkRight: { frames: 8, row: 4, speed: 200 },
-    walkLeft: { frames: 8, row: 5, speed: 200 },
-    turn: { frames: 4, row: 7, speed: 150 } // Assuming we have a turning animation
+    walkLeft: { frames: 8, row: 5, speed: 200 }
   };
 
-  const WALK_SPEED = 0.5; // pixels per frame
-  const EDGE_PADDING = 20; // pixels from the edge of the screen
+  const WALK_SPEED = 0.5;
+  const EDGE_PADDING = 20;
   const CAT_SCALE = 3;
-  const TURN_DURATION = 1000; // milliseconds
+  const CLICK_TIMEOUT = 500;
+  const PLAY_DURATION = 3000;
 
   let cat, catState, currentAnimationFrame;
   let isWalking = false;
-  let isTurning = false;
-  let direction = 1; // 1 for right, -1 for left
+  let direction = 1;
   let lastFrameTime = 0;
   let currentPosition = { x: EDGE_PADDING, y: EDGE_PADDING };
-  let turnStartTime = 0;
+  let clickCount = 0;
+  let lastClickTime = 0;
+  let playTimeout;
 
   function createCatElement() {
     const element = document.createElement('div');
@@ -67,16 +68,14 @@ const CatCompanion = (function() {
   }
 
   function handleMouseEnter() {
-    if (!isWalking && !isTurning) {
-      catState = 'play';
-      animate('play');
+    if (!isWalking) {
+      startPlaying();
     }
   }
 
   function handleMouseLeave() {
-    if (!isWalking && !isTurning) {
-      catState = 'idle';
-      animate('idle');
+    if (!isWalking) {
+      stopPlaying();
     }
   }
 
@@ -85,33 +84,18 @@ const CatCompanion = (function() {
     const deltaTime = timestamp - lastFrameTime;
     lastFrameTime = timestamp;
 
-    if (isTurning) {
-      const turnProgress = (timestamp - turnStartTime) / TURN_DURATION;
-      if (turnProgress < 1) {
-        const turnFrame = Math.floor(turnProgress * STATES.turn.frames);
-        updateSprite('turn', turnFrame);
-      } else {
-        isTurning = false;
-        direction *= -1;
-        cat.style.transform = `scale(${CAT_SCALE}) scaleX(${direction})`;
-      }
-    } else {
-      currentPosition.x += direction * WALK_SPEED * (deltaTime / 16.67); // Adjust for frame rate
-      cat.style.left = `${currentPosition.x}px`;
+    currentPosition.x += direction * WALK_SPEED * (deltaTime / 16.67);
+    cat.style.left = `${currentPosition.x}px`;
 
-      // Check boundaries
-      if (currentPosition.x < EDGE_PADDING || currentPosition.x > window.innerWidth - (SPRITE_WIDTH * CAT_SCALE) - EDGE_PADDING) {
-        isTurning = true;
-        turnStartTime = timestamp;
-        animate('turn');
-      }
+    if (currentPosition.x < EDGE_PADDING || currentPosition.x > window.innerWidth - (SPRITE_WIDTH * CAT_SCALE) - EDGE_PADDING) {
+      direction *= -1;
+      cat.style.transform = `scale(${CAT_SCALE}) scaleX(${direction})`;
     }
 
     if (isWalking) {
       requestAnimationFrame(walk);
     } else {
-      catState = 'idle';
-      animate('idle');
+      startPlaying();
     }
   }
 
@@ -121,20 +105,72 @@ const CatCompanion = (function() {
       catState = direction === 1 ? 'walkRight' : 'walkLeft';
       animate(catState);
       requestAnimationFrame(walk);
-
-      // Stop walking after a random time between 10 to 20 seconds
-      setTimeout(() => {
-        isWalking = false;
-      }, Math.random() * 10000 + 10000);
     }
+  }
+
+  function stopWalking() {
+    isWalking = false;
+  }
+
+  function startPlaying() {
+    catState = 'play';
+    animate('play');
+    if (playTimeout) clearTimeout(playTimeout);
+    playTimeout = setTimeout(() => {
+      if (!isWalking) {
+        catState = 'idle';
+        animate('idle');
+      }
+    }, PLAY_DURATION);
+  }
+
+  function stopPlaying() {
+    if (playTimeout) clearTimeout(playTimeout);
+    if (!isWalking) {
+      catState = 'idle';
+      animate('idle');
+    }
+  }
+
+  function walkAway() {
+    startWalking();
+    // Choose the direction that leads to the nearest edge
+    direction = (currentPosition.x < window.innerWidth / 2) ? -1 : 1;
+    cat.style.transform = `scale(${CAT_SCALE}) scaleX(${direction})`;
+
+    // Walk until reaching the edge
+    const checkEdge = setInterval(() => {
+      if (currentPosition.x <= EDGE_PADDING || currentPosition.x >= window.innerWidth - (SPRITE_WIDTH * CAT_SCALE) - EDGE_PADDING) {
+        stopWalking();
+        clearInterval(checkEdge);
+      }
+    }, 100);
+  }
+
+  function handleClick() {
+    const currentTime = new Date().getTime();
+    if (currentTime - lastClickTime < CLICK_TIMEOUT) {
+      clickCount++;
+      if (clickCount === 3) {
+        walkAway();
+        clickCount = 0;
+      }
+    } else {
+      clickCount = 1;
+      if (!isWalking) {
+        startPlaying();
+      }
+    }
+    lastClickTime = currentTime;
   }
 
   function startRandomWalks() {
     setInterval(() => {
-      if (!isWalking && !isTurning && Math.random() < 0.9) { // 20% chance to start walking
+      if (!isWalking && Math.random() < 0.2) {
         startWalking();
+        setTimeout(stopWalking, Math.random() * 10000 + 10000);
       }
-    }, 15000); // Check every 15 seconds
+    }, 15000);
   }
 
   function init() {
@@ -143,6 +179,7 @@ const CatCompanion = (function() {
     animate('idle');
     cat.addEventListener('mouseenter', handleMouseEnter);
     cat.addEventListener('mouseleave', handleMouseLeave);
+    cat.addEventListener('click', handleClick);
     startRandomWalks();
   }
 
