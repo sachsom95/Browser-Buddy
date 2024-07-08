@@ -170,11 +170,11 @@
 
 
 
-    <div id="privacyModal" class="modal">
+    <div id="privacyModal" class="modal" style="display: block;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Privacy Policy for Cat Companion Extension</h2>
-            <p>Last updated: [Current Date]</p>
+            <p>Last updated: 7 june 2024</p>
             <p>Cat Companion ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains our data collection, use, and disclosure practices for the Cat Companion Chrome extension (the "Extension").</p>
             <h3>1. Data Collection</h3>
             <p>The Cat Companion Extension does not collect, store, or transmit any personal information or user data. We do not track your browsing history, capture any personal identifiers, or monitor your online activities in any way.</p>
@@ -187,7 +187,7 @@
             <h3>5. Changes to This Privacy Policy</h3>
             <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date at the top of this Privacy Policy.</p>
             <h3>6. Contact Us</h3>
-            <p>If you have any questions about this Privacy Policy, please contact us at: [Your Contact Information]</p>
+            <p>If you have any questions about this Privacy Policy, please contact via the chrome store</p>
         </div>
     </div>
     <div id="creditsModal" class="modal">
@@ -226,9 +226,6 @@
                 <h3>How often do you update the extension?</h3>
                 <p>We try to update the extension as often as we can. This is usually twice a month.</p>
                 
-                <h3>How can I contact you?</h3>
-                <p>You can contact us at [Your Email]. Feel free to throw us a message if you have a good idea for how the extension can be improved, if you found a bug or simple want to chat.</p>
-            </div>
         </div>
     </div>
 
@@ -269,41 +266,6 @@
         setupModal("privacyModal", "privacyLink");
         setupModal("faqModal", "faqLink");
         setupModal("creditsModal", "creditsLink");
-
-        // Check if the URL contains '/privacy'
-    if (window.location.pathname.includes('/privacy')) {
-        // Get the privacy modal and its content
-        const privacyModal = document.getElementById('privacyModal');
-        const privacyContent = document.getElementById('privacyContent');
-
-        // Remove the modal styling
-        privacyModal.style.display = 'block';
-        privacyModal.style.position = 'static';
-        privacyModal.style.backgroundColor = 'transparent';
-        privacyModal.style.height = 'auto';
-
-        // Adjust the content styling
-        privacyContent.style.margin = '0 auto';
-        privacyContent.style.width = '100%';
-        privacyContent.style.maxWidth = '800px';
-
-        // Hide other content
-        document.querySelector('.container').style.display = 'none';
-        document.querySelector('footer').style.display = 'none';
-
-        // Remove the close button
-        const closeButton = privacyContent.querySelector('.close');
-        if (closeButton) {
-            closeButton.style.display = 'none';
-        }
-
-        // Add a title to the page
-        document.title = 'Privacy Policy - Cat Companion Extension';
-    }
-
-
-
-
     </script>
 </body>
 </html>
