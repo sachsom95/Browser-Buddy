@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Browser Buddy",
-  "version": "0.0.0.1",
+  "version": "0.0.0.2",
   "description": "A cute animated cat companion for your browser",
   "action": {
     "default_icon": "icons/icon128.png"
