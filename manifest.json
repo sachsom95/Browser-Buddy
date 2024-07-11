@@ -3,7 +3,6 @@
   "name": "Browser Buddy",
   "version": "0.0.0.1",
   "description": "A cute animated cat companion for your browser",
-  "permissions": ["activeTab"],
   "action": {
     "default_icon": "icons/icon128.png"
   },
