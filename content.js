@@ -3,9 +3,14 @@ const CatCompanion = (function() {
   const SPRITE_HEIGHT = 32;
   const STATES = {
     idle: { frames: 16, row: 0, speed: 200 },
-    play: { frames: 8, row: 6, speed: 250 },
-    walkRight: { frames: 8, row: 4, speed: 200 },
-    walkLeft: { frames: 8, row: 5, speed: 200 }
+    walkRight: { frames: 8, row: 4, speed: 100 },
+    walkLeft: { frames: 8, row: 4, speed: 100 },
+    runRight: { frames: 8, row: 5, speed: 200 },
+    runLeft: { frames: 8, row: 5, speed: 200 },
+    sleep: { frames: 4, row: 6, speed: 200 },
+    play: { frames: 4, row: 7, speed: 250 },
+    pounce: { frames: 4, row: 8, speed: 200 },
+    growl: { frames: 4, row: 9, speed: 200 }
   };
 
   const WALK_SPEED = 0.5;
