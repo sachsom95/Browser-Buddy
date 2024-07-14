@@ -1,6 +1,5 @@
 # Animated Cat Companion
 
-
 A delightful Chrome extension that brings a cute, interactive pixel art cat to your browsing experience.
 
 ![Cat Companion Demo](cat-companion-demo.gif)
@@ -15,9 +14,9 @@ A delightful Chrome extension that brings a cute, interactive pixel art cat to y
   - [Project Structure](#project-structure)
   - [Key Components](#key-components)
   - [Code Architecture](#code-architecture)
+  - [How It Works](#how-it-works)
   - [Customization](#customization)
   - [Future Development](#future-development)
-
 
 ## Features
 
@@ -88,6 +87,27 @@ const CatCompanion = (function() {
 
 This structure allows for easy expansion and maintenance of the codebase.
 
+### How It Works
+
+The cat's animation is achieved using a technique called sprite animation. Here's how it works:
+
+1. **Sprite Sheet**: A single image (`cat-sprite.png`) contains multiple frames of the cat's animation.
+
+2. **Displaying a Frame**: The cat is displayed using a div element with the sprite sheet as its background image. The div's size is set to match one frame of the animation.
+
+3. **Background Position**: The key to the animation is changing the `background-position` CSS property. This determines which part of the sprite sheet is visible.
+
+4. **Animation Process**:
+   - We start with `background-position: 0px 0px`, showing the first frame.
+   - To show the second frame, we set `background-position: -32px 0px` (assuming each frame is 32px wide).
+   - This process continues for each frame of the animation.
+
+5. **Rapid Changes**: In the code, these background position changes happen quickly (e.g., every 200ms), creating the illusion of smooth movement.
+
+6. **Looping**: When we reach the last frame, we loop back to the first frame for continuous animation.
+
+This technique is efficient because it requires only one image to be loaded, and the animation is handled entirely by CSS and JavaScript.
+
 ### Customization
 
 Developers can easily customize the cat's appearance and behavior by modifying the following:
@@ -102,8 +122,6 @@ Developers can easily customize the cat's appearance and behavior by modifying t
 2. Add more interactive elements and mini-games
 3. Develop a system for "feeding" and "caring" for the cat
 4. Create additional animal companions
-
-
 
 ---
 
