@@ -1,6 +1,15 @@
 const CatCompanion = (function() {
+  // SPRITE_WIDTH and SPRITE_HEIGHT are the dimensions of each individual frame in the sprite sheet. This will be used to calculate the background position of the sprite. Basically like a convolutional window
   const SPRITE_WIDTH = 32;
   const SPRITE_HEIGHT = 32;
+  /* 
+  Frames: The number of individual images (or frames) in the animation sequence for a particular state
+  Example: For the 'idle' state, there are 16 frames, meaning the animation consists of 16 slightly different images that, 
+            when played in sequence, create   the illusion of movement.
+  Row:  The vertical position of the animation sequence in the sprite sheet.
+  Example : The 'walkRight' state is on row 4, meaning it's the 5th row in the sprite sheet (remember, rows are zero-indexed).
+  Speed: The speed at which the animation should play. This is the time in milliseconds between each frame.
+*/
   const STATES = {
     idle: { frames: 16, row: 0, speed: 200 },
     walkRight: { frames: 8, row: 4, speed: 100 },
