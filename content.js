@@ -9,17 +9,18 @@ const CatCompanion = (function() {
   Row:  The vertical position of the animation sequence in the sprite sheet.
   Example : The 'walkRight' state is on row 4, meaning it's the 5th row in the sprite sheet (remember, rows are zero-indexed).
   Speed: The speed at which the animation should play. This is the time in milliseconds between each frame.
+  Column: The number of frames in each row of the sprite sheet.
 */
   const STATES = {
-    idle: { frames: 16, row: 0, speed: 200 },
-    walkRight: { frames: 8, row: 4, speed: 100 },
-    walkLeft: { frames: 8, row: 4, speed: 100 },
-    runRight: { frames: 8, row: 5, speed: 200 },
-    runLeft: { frames: 8, row: 5, speed: 200 },
-    sleep: { frames: 4, row: 6, speed: 200 },
-    play: { frames: 4, row: 7, speed: 250 },
-    pounce: { frames: 4, row: 8, speed: 200 },
-    growl: { frames: 4, row: 9, speed: 200 }
+    idle: { frames: 16, row: 0, column: 4, speed: 200 },
+    walkRight: { frames: 8, row: 4, column: 8,  speed: 100 },
+    walkLeft: { frames: 8, row: 4, column: 8, speed: 100 },
+    runRight: { frames: 8, row: 5, column: 8, speed: 200 },
+    runLeft: { frames: 8, row: 5, column: 8, speed: 200 },
+    sleep: { frames: 4, row: 6, column: 4, speed: 200 },
+    play: { frames: 4, row: 7, column: 6, speed: 250 },
+    pounce: { frames: 4, row: 8, column: 7, speed: 200 },
+    growl: { frames: 4, row: 9, column: 8, speed: 200 }
   };
 
   const WALK_SPEED = 0.5;
