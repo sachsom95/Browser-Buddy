@@ -148,7 +148,8 @@ const CatCompanion = (function() {
     if (isWalking && !isDestroyed) {
       requestAnimationFrame(walk);
     } else if (!isDestroyed) {
-      startPlaying();
+      catState = 'idle';
+      animate('idle');
     }
   }
 
@@ -257,9 +258,9 @@ const CatCompanion = (function() {
           if (!isDestroyed) {
             stopWalking();
           }
-        }, Math.random() * 10000 + 10000);
+        }, Math.random() * 3000 + 2000);
       }
-    }, 15000);
+    }, 30000);
   }
 
   function updateTransform() {
